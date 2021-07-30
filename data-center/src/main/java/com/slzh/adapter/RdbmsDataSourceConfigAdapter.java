@@ -1,4 +1,4 @@
-package com.slzh;
+package com.slzh.adapter;
 
 import com.slzh.model.config.datasource.base.AbstractDataSourceConfig;
 import com.slzh.model.config.datasource.rdbms.AbstractRdbmsDataSourceConfig;

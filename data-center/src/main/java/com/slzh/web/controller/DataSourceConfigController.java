@@ -33,6 +33,7 @@ public class DataSourceConfigController {
         try {
             connectionDetails = dataSourceService.getConnectionDetails(dataSourceConfig);
         } catch (Exception e) {
+            e.printStackTrace();
             return HttpResult.error(e.getMessage());
         }
         return connectionDetails;

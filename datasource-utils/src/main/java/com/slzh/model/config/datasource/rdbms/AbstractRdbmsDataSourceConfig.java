@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractRdbmsDataSourceConfig extends AbstractDataSourceConfig {
     private Logger log = LoggerFactory.getLogger(getClass());
     // 数据库连接地址前缀 eg: jdbc:mysql//
-    private String urlPrefix;
-    // 驱动全类名
-    private String driverClassName;
+    protected String urlPrefix;
+    // 驱动全类名 子类设置
+    protected String driverClassName;
 
     // ip
     private String ip;
@@ -243,6 +243,8 @@ public abstract class AbstractRdbmsDataSourceConfig extends AbstractDataSourceCo
     }
 
     public String getUrl() {
+        if(this.url == null)
+            this.url = splicingUrl(this.ip, this.port, this.dbName);
         return url;
     }
 
@@ -281,20 +283,20 @@ public abstract class AbstractRdbmsDataSourceConfig extends AbstractDataSourceCo
     public void setMaxWaitTimes(int maxWaitTimes) {
         this.maxWaitTimes = maxWaitTimes;
     }
-
+    // 如果为null 调用子类实现 this是指向子类的
     public String getUrlPrefix() {
+        if(urlPrefix == null)
+            this.setUrlPrefix();
         return urlPrefix;
     }
-
-    public void setUrlPrefix(String urlPrefix) {
-        this.urlPrefix = urlPrefix;
-    }
-
     public String getDriverClassName() {
+        if(this.driverClassName == null)
+            this.setDriverClassName();
         return driverClassName;
     }
+    public abstract void setUrlPrefix();
 
-    public void setDriverClassName(String driverClassName) {
-        this.driverClassName = driverClassName;
-    }
+
+
+    public abstract void setDriverClassName();
 }
