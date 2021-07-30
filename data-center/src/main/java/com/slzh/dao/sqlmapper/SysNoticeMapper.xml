@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.slzh.dao.SysNoticeMapper">
+    <resultMap id="baseRsMap" type="com.slzh.model.SysNotice">
+        <id column="id" property="id"></id>
+        <result column="message" property="message"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="created_time" property="createdTime"></result>
+        <result column="updated_time" property="updatedTime"></result>
+        <result column="status" property="status"></result>
+        <result column="img_urls" property="imgUrls"></result>
+        <result column="redirect_url" property="redirectUrl"></result>
+        <result column="type_desc" property="typeDesc"></result>
+        <result column="notice_origin" property="noticeOrigin"></result>
+        <result column="notice_pusher" property="noticePusher"></result>
+        <result column="show_type" property="showType"></result>
+        <result column="label" property="label"></result>
+    </resultMap>
+    <update id="allRead">
+        update sys_notice set status = 1 where user_id = #{userId}
+    </update>
+    <select id="batchAlterStatus" resultType="java.lang.Integer">
+        update sys_notice set status = 1
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+    <insert id="pushNotice" parameterType="com.slzh.model.SysNotice">
+        insert into sys_notice(message,user_id,username,img_urls,redirect_url,
+                               type_desc,notice_origin,notice_pusher,label,show_type)
+        value(#{message},#{userId},#{username},#{imgUrls},#{redirectUrl},#{typeDesc},
+            #{noticeOrigin},#{noticePusher},
+            #{label},#{showType})
+    </insert>
+    <select id="findPage" resultMap="baseRsMap">
+        select t.* from sys_notice t
+        where (user_id in (#{userId} ,-1) or username = #{username})
+        <if test="typeDesc !=null and typeDesc !=''">
+            and typeDesc=#{typeDesc}
+        </if>
+        <if test="startTime !=null and startTime !='' and endTime != null and endTime != ''">
+            and created_time between #{startTime} and #{endTime}
+        </if>
+        <if test="status !=null">
+            and status = #{status}
+        </if>
+    </select>
+
+</mapper>

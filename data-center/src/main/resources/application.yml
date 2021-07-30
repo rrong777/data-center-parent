@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: dev
+server:
+  port: 8301
+  servlet:
+    context-path: /datacenter
+

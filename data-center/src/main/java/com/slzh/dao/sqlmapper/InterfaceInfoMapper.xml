@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.slzh.dao.InterfaceInfoMapper">
+    <resultMap id="BaseResultMap" type="com.slzh.model.sso.InterfaceInfo">
+        <id column="interface_info_id" property="interfaceInfoId" jdbcType="BIGINT"/>
+        <result column="register_info_id" property="registerInfoId" jdbcType="BIGINT"/>
+        <result column="developers" property="developers" jdbcType="VARCHAR"/>
+        <result column="application_name" property="applicationName" jdbcType="VARCHAR"/>
+        <result column="interface_type" property="interfaceType" jdbcType="CHAR"/>
+        <result column="interface_addresses" property="interfaceAddresses" jdbcType="VARCHAR"/>
+        <result column="request_mode" property="requestMode" jdbcType="VARCHAR"/>
+        <result column="is_enabled" property="isEnabled" jdbcType="BIT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIT"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_department" property="createDepartment" jdbcType="VARCHAR"/>
+        <result column="create_server_host" property="createServerHost" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_department" property="updateDepartment" jdbcType="VARCHAR"/>
+        <result column="update_server_host" property="updateServerHost" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="record_version" property="recordVersion" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    interface_info_id, register_info_id, developers, application_name, interface_type, 
+    interface_addresses, request_mode, is_enabled, remark, is_delete, create_user, create_department, 
+    create_server_host, create_time, update_user, update_department, update_server_host, 
+    update_time, record_version
+  </sql>
+    <insert id="insertReleaseInfo">
+    insert into portal_release_info(interface_info_id, params,user_id,response_code,response_msg,response_str,release_username)
+    value (#{interfaceInfoId},#{params},#{userId},#{responseCode},#{responseMsg},#{responseStr},#{releaseUsername})
+  </insert>
+
+
+    <insert id="insertReleaseInfos">
+        insert into portal_release_info(interface_info_id,
+        params,user_id,response_code,response_msg,response_str,release_username)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.interfaceInfoId},#{item.params},#{item.userId},#{item.responseCode},#{item.responseMsg},#{item.responseStr},#{item.releaseUsername})
+        </foreach>
+    </insert>
+    <select id="getReleaseRecordByUsername" resultType="java.util.Map">
+    SELECT
+      t1.id,
+      t1.interface_info_id,
+      t1.params,
+      t1.response_code,
+      t1.response_msg,
+      t1.created_time,
+      t2.application_name,
+      t2.interface_type
+    FROM
+      `portal_release_info` t1
+        LEFT JOIN portal_interface_info t2 ON t1.interface_info_id = t2.interface_info_id
+    WHERE
+      release_username = #{username}
+      order by t1.created_time desc
+  </select>
+    <select id="getInterfaceInfoForRelease" resultMap="BaseResultMap">
+        select t.* from portal_interface_info t where interface_type = #{interfaceType}
+        <if test="allRelease != null and allRelease != true">
+            and t.interface_info_id in
+            <foreach collection="interfaceInfoIds" separator="," open="(" close=")" item="interceInfoId">
+                #{interceInfoId}
+            </foreach>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+
+        select
+        <include refid="Base_Column_List"/>
+        from portal_interface_info
+        where interface_info_id = #{interfaceInfoId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+
+    delete from portal_interface_info
+    where interface_info_id = #{interfaceInfoId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.slzh.model.sso.InterfaceInfo">
+    insert into portal_interface_info (register_info_id, developers,
+      application_name, interface_type, interface_addresses, 
+      request_mode,remark,
+     create_user, create_department,
+      create_server_host)
+    values ( #{registerInfoId,jdbcType=BIGINT}, #{developers,jdbcType=VARCHAR},
+      #{applicationName,jdbcType=VARCHAR}, #{interfaceType,jdbcType=CHAR}, #{interfaceAddresses,jdbcType=VARCHAR}, 
+      #{requestMode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+     #{createUser,jdbcType=VARCHAR}, #{createDepartment,jdbcType=VARCHAR},
+      #{createServerHost,jdbcType=VARCHAR})
+  </insert>
+    <select id="listApp" resultType="java.util.Map">
+    select register_info_id registerInfoId,developers,application_name applicationName from portal_app_center
+    where is_delete != 1 group by developers
+  </select>
+    <insert id="insertSelective" parameterType="com.slzh.model.sso.InterfaceInfo">
+        insert into portal_interface_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="interfaceInfoId != null">
+                interface_info_id,
+            </if>
+            <if test="registerInfoId != null">
+                register_info_id,
+            </if>
+            <if test="developers != null">
+                developers,
+            </if>
+            <if test="applicationName != null">
+                application_name,
+            </if>
+            <if test="interfaceType != null">
+                interface_type,
+            </if>
+            <if test="interfaceAddresses != null">
+                interface_addresses,
+            </if>
+            <if test="requestMode != null">
+                request_mode,
+            </if>
+            <if test="isEnabled != null">
+                is_enabled,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createDepartment != null">
+                create_department,
+            </if>
+            <if test="createServerHost != null">
+                create_server_host,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateUser != null">
+                update_user,
+            </if>
+            <if test="updateDepartment != null">
+                update_department,
+            </if>
+            <if test="updateServerHost != null">
+                update_server_host,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="recordVersion != null">
+                record_version,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="interfaceInfoId != null">
+                #{interfaceInfoId,jdbcType=BIGINT},
+            </if>
+            <if test="registerInfoId != null">
+                #{registerInfoId,jdbcType=BIGINT},
+            </if>
+            <if test="developers != null">
+                #{developers,jdbcType=VARCHAR},
+            </if>
+            <if test="applicationName != null">
+                #{applicationName,jdbcType=VARCHAR},
+            </if>
+            <if test="interfaceType != null">
+                #{interfaceType,jdbcType=CHAR},
+            </if>
+            <if test="interfaceAddresses != null">
+                #{interfaceAddresses,jdbcType=VARCHAR},
+            </if>
+            <if test="requestMode != null">
+                #{requestMode,jdbcType=VARCHAR},
+            </if>
+            <if test="isEnabled != null">
+                #{isEnabled,jdbcType=BIT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=BIT},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createDepartment != null">
+                #{createDepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="createServerHost != null">
+                #{createServerHost,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDepartment != null">
+                #{updateDepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="updateServerHost != null">
+                #{updateServerHost,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recordVersion != null">
+                #{recordVersion,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="listInterface" resultType="java.util.Map">
+    select interface_info_id, application_name,developers from portal_interface_info
+    where interface_type =#{interfaceType}
+    and is_delete != 1
+  </select>
+    <update id="setIsDelete">
+    update portal_interface_info set is_delete = 1 where interface_info_id = #{interfaceInfoId}
+  </update>
+    <update id="setIsEnable">
+    update portal_interface_info set is_enabled = #{isEnabled} where interface_info_id = #{interfaceInfoId}
+  </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.slzh.model.sso.InterfaceInfo">
+
+        update portal_interface_info
+        <set>
+            <if test="developers != null">
+                developers = #{developers,jdbcType=VARCHAR},
+            </if>
+            <if test="applicationName != null">
+                application_name = #{applicationName,jdbcType=VARCHAR},
+            </if>
+            <if test="interfaceType != null">
+                interface_type = #{interfaceType,jdbcType=CHAR},
+            </if>
+            <if test="interfaceAddresses != null">
+                interface_addresses = #{interfaceAddresses,jdbcType=VARCHAR},
+            </if>
+            <if test="requestMode != null">
+                request_mode = #{requestMode,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDepartment != null">
+                update_department = #{updateDepartment,jdbcType=VARCHAR},
+            </if>
+            <if test="updateServerHost != null">
+                update_server_host = #{updateServerHost,jdbcType=VARCHAR},
+            </if>
+            <if test="recordVersion != null">
+                record_version = record_version = record_version + 1
+            </if>
+        </set>
+        where interface_info_id = #{interfaceInfoId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.slzh.model.sso.InterfaceInfo">
+
+    update portal_interface_info
+    set register_info_id = #{registerInfoId,jdbcType=BIGINT},
+      developers = #{developers,jdbcType=VARCHAR},
+      application_name = #{applicationName,jdbcType=VARCHAR},
+      interface_type = #{interfaceType,jdbcType=CHAR},
+      interface_addresses = #{interfaceAddresses,jdbcType=VARCHAR},
+      request_mode = #{requestMode,jdbcType=VARCHAR},
+      is_enabled = #{isEnabled,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=BIT},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_department = #{createDepartment,jdbcType=VARCHAR},
+      create_server_host = #{createServerHost,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_department = #{updateDepartment,jdbcType=VARCHAR},
+      update_server_host = #{updateServerHost,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      record_version = #{recordVersion,jdbcType=INTEGER}
+    where interface_info_id = #{interfaceInfoId,jdbcType=BIGINT}
+  </update>
+    <select id="findPage" resultMap="BaseResultMap">
+        select interface_info_id,register_info_id,developers,application_name,interface_type,interface_addresses,
+        request_mode,is_enabled,remark,create_user,create_department,create_server_host,create_time,record_version
+        from portal_interface_info where is_delete = 0
+        <if test="isEnabled!=null and isEnabled!=''">
+            and is_enabled = #{isEnabel}
+        </if>
+        <if test="keyword!=null and keyword !=''">
+            and developers like concat('%' , #{keyword} , '%') or application_name like concat('%' , #{keyword} , '%')
+        </if>
+        <if test="interfaceType!=null and interfaceType!=''">
+            and interface_type = #{interfaceType}
+        </if>
+    </select>
+</mapper>

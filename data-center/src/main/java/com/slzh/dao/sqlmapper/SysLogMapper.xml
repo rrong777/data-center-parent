@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.slzh.dao.SysLogMapper">
+    <resultMap id="BaseResultMap" type="com.slzh.model.SysLog">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="ip_addr" jdbcType="VARCHAR" property="ip" />
+        <result column="op_desc" jdbcType="VARCHAR" property="operation" />
+        <result column="method_name" jdbcType="VARCHAR" property="method" />
+        <result column="params" jdbcType="VARCHAR" property="params" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="last_update_time" jdbcType="TIMESTAMP" property="time" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="class_name" jdbcType="VARCHAR" property="className" />
+    </resultMap>
+
+    <select id="selectAllPathDesc" resultType="java.util.Map">
+        select `path`, `desc` from sys_path_desc
+    </select>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select log.ip_addr,log.op_desc,log.id,log.last_update_time,log.params,u.username user_name from sys_log log, sys_user u
+        where
+            log.user_id = u.id
+            and last_update_time BETWEEN #{params.startTime} and #{params.endTime}
+            and op_desc is not null
+        <if test="params.opDesc != null and params.opDesc !=''">
+            and op_desc = #{params.opDesc}
+        </if>
+        <if test="params.ipAddr!=null and params.ipAddr!=''">
+            and ip_addr = #{params.ipAddr}
+        </if>
+        order by
+        last_update_time desc
+    </select>
+    <sql id="insertSql">
+        insert into sys_log(ip_addr,op_desc,method_name,params,user_name,last_update_time,class_name,user_id)
+    </sql>
+    <sql id="valueSql">
+        (#{sysLog.ip},#{sysLog.operation},#{sysLog.method},#{sysLog.params},#{sysLog.userName},#{sysLog.time},#{sysLog.className}, #{sysLog.userId})
+    </sql>
+    <insert id="insertOne">
+        <include refid="insertSql"></include>
+        value
+            <include refid="valueSql"></include>
+
+    </insert>
+    <insert id="saveList">
+        <include refid="insertSql"></include>
+        values
+        <foreach collection="list" item="sysLog" separator=",">
+            <include refid="valueSql"></include>
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,255 @@
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!--    <context id="DB2Tables2" targetRuntime="MyBatis3">-->
+    <!--        <commentGenerator>-->
+    <!--            &lt;!&ndash; 是否去掉注释 &ndash;&gt;-->
+    <!--            <property name="suppressDate" value="false"/>-->
+    <!--            <property name="suppressAllComments" value="false"/>-->
+    <!--        </commentGenerator>-->
+    <!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+    <!--                        connectionURL="jdbc:mysql://47.96.149.221:3306/bubu_trade?useUnicode=true&amp;characterEncoding=UTF-8"-->
+    <!--                        userId="aurotech" password="aurotech"/>-->
+    <!--        <javaTypeResolver>-->
+    <!--            <property name="forceBigDecimals" value="false"/>-->
+    <!--        </javaTypeResolver>-->
+
+    <!--        &lt;!&ndash; 实体定义地址 &ndash;&gt;-->
+    <!--        <javaModelGenerator targetPackage="com.al.model.taobao"-->
+    <!--                            targetProject="src/main/java">-->
+    <!--            <property name="enableSubPackages" value="true"/>-->
+    <!--            <property name="trimStrings" value="true"/>-->
+    <!--        </javaModelGenerator>-->
+
+    <!--        <sqlMapGenerator targetPackage="com.al.sqlmapper" targetProject="src/main/resource">-->
+    <!--            <property name="enableSubPackages" value="true"/>-->
+    <!--        </sqlMapGenerator>-->
+    <!--        &lt;!&ndash; mapper接口生成的位置. DAO定义 XMLMAPPER是xml的配置方式，还有ANNOTabelMapper的是注解方式 &ndash;&gt;-->
+    <!--&lt;!&ndash;        <javaClientGenerator type="XMLMAPPER"&ndash;&gt;-->
+    <!--&lt;!&ndash;                             targetPackage="com.al.dao.taobao" targetProject="src/main/java">&ndash;&gt;-->
+    <!--&lt;!&ndash;            <property name="enableSubPackages" value="true"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;        </javaClientGenerator>&ndash;&gt;-->
+
+    <!--        <table tableName="taokedetail" domainObjectName="TaoKeDetail">-->
+    <!--            <property name="useActualColumnNames" value="true"/>-->
+    <!--            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+    <!--        </table>-->
+    <!--    </context>-->
+
+
+    <!--    	<context id="DB2Tables" targetRuntime="MyBatis3">-->
+    <!--    		<commentGenerator>-->
+    <!--    			&lt;!&ndash; 是否去掉注释 &ndash;&gt;-->
+    <!--    			<property name="suppressDate" value="true" />-->
+    <!--    			<property name="suppressAllComments" value="true" />-->
+    <!--    		</commentGenerator>-->
+    <!--    		<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+    <!--    			connectionURL="jdbc:mysql://47.96.149.221:3306/bubu_trade?useUnicode=true&amp;characterEncoding=UTF-8"-->
+    <!--    			userId="aurotech" password="aurotech" />-->
+    <!--    		<javaTypeResolver>-->
+    <!--    			<property name="forceBigDecimals" value="false" />-->
+    <!--    		</javaTypeResolver>-->
+
+    <!--    		&lt;!&ndash; 实体定义地址 &ndash;&gt;-->
+    <!--    		<javaModelGenerator targetPackage="com.al.model"-->
+    <!--    			targetProject="src/main/java">-->
+    <!--    			<property name="enableSubPackages" value="true" />-->
+    <!--    			<property name="trimStrings" value="true" />-->
+    <!--    		</javaModelGenerator>-->
+    <!--    		&lt;!&ndash; sql的配置文件定义 &ndash;&gt;-->
+    <!--    		<sqlMapGenerator targetPackage="com.al.sqlmapper" targetProject="src/main/java">-->
+    <!--    			<property name="enableSubPackages" value="true" />-->
+    <!--    		</sqlMapGenerator>-->
+    <!--    		&lt;!&ndash; mapper接口生成的位置. DAO定义 XMLMAPPER是xml的配置方式，还有ANNOTabelMapper的是注解方式 &ndash;&gt;-->
+    <!--    		<javaClientGenerator type="XMLMAPPER"-->
+    <!--    			targetPackage="com.al.dao" targetProject="src/main/java">-->
+    <!--    			<property name="enableSubPackages" value="true" />-->
+    <!--    		</javaClientGenerator>-->
+
+    <!--    &lt;!&ndash;		<table tableName="t_Video" domainObjectName="Video">&ndash;&gt;-->
+    <!--    &lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		</table>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;		<table tableName="t_video_clip" domainObjectName="VideoClip">&ndash;&gt;-->
+    <!--    &lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		</table>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;		<table tableName="t_video_clip_items" domainObjectName="VideoClipItems">&ndash;&gt;-->
+    <!--    &lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		</table>&ndash;&gt;-->
+
+    <!--    &lt;!&ndash;		<table tableName="t_video_favorite" domainObjectName="VideoFavorite">&ndash;&gt;-->
+    <!--    &lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		</table>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		<table tableName="t_video_template" domainObjectName="VideoTemplate">&ndash;&gt;-->
+    <!--    &lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		</table>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		<table tableName="t_video_template_favorite" domainObjectName="VTemplateFavorite">&ndash;&gt;-->
+    <!--    &lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		</table>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		<table tableName="t_video_source" domainObjectName="VideoSource">&ndash;&gt;-->
+    <!--    &lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    &lt;!&ndash;		</table>&ndash;&gt;-->
+
+
+    <!--    		<table tableName="tbaccount" domainObjectName="AutoTBAccount">-->
+    <!--    &lt;!&ndash;			<property name="useActualColumnNames" value="true"/>&ndash;&gt;-->
+    <!--    			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+    <!--    		</table>-->
+    <!--    	</context>-->
+
+
+    <!--    	<context id="DB2Tables2" targetRuntime="MyBatis3">-->
+    <!--    		<commentGenerator>-->
+    <!--    			&lt;!&ndash; 是否去掉注释 &ndash;&gt;-->
+    <!--    			<property name="suppressDate" value="false" />-->
+    <!--    			<property name="suppressAllComments" value="false" />-->
+    <!--    		</commentGenerator>-->
+    <!--    		<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+    <!--    						connectionURL="jdbc:mysql://47.96.149.221:3306/bubu_trade?useUnicode=true&amp;characterEncoding=UTF-8"-->
+    <!--    						userId="aurotech" password="aurotech" />-->
+    <!--    		<javaTypeResolver>-->
+    <!--    			<property name="forceBigDecimals" value="false" />-->
+    <!--    		</javaTypeResolver>-->
+
+    <!--    		&lt;!&ndash; 实体定义地址 &ndash;&gt;-->
+    <!--    		<javaModelGenerator targetPackage="com.al.model.pay"-->
+    <!--    							targetProject="src/main/java">-->
+    <!--    			<property name="enableSubPackages" value="true" />-->
+    <!--    			<property name="trimStrings" value="true" />-->
+    <!--    		</javaModelGenerator>-->
+    <!--    		&lt;!&ndash; sql的配置文件定义 &ndash;&gt;-->
+    <!--    		<sqlMapGenerator targetPackage="com.al.sqlmapper" targetProject="src/main/java">-->
+    <!--    			<property name="enableSubPackages" value="true" />-->
+    <!--    		</sqlMapGenerator>-->
+    <!--    		&lt;!&ndash; mapper接口生成的位置. DAO定义 XMLMAPPER是xml的配置方式，还有ANNOTabelMapper的是注解方式 &ndash;&gt;-->
+    <!--    		<javaClientGenerator type="XMLMAPPER"-->
+    <!--    							 targetPackage="com.al.dao.pay" targetProject="src/main/java">-->
+    <!--    			<property name="enableSubPackages" value="true" />-->
+    <!--    		</javaClientGenerator>-->
+
+    <!--    		&lt;!&ndash;		<table tableName="t_Video" domainObjectName="Video">&ndash;&gt;-->
+    <!--    		&lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		</table>&ndash;&gt;-->
+
+    <!--    		&lt;!&ndash;		<table tableName="t_video_clip" domainObjectName="VideoClip">&ndash;&gt;-->
+    <!--    		&lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		</table>&ndash;&gt;-->
+
+    <!--    		&lt;!&ndash;		<table tableName="t_video_clip_items" domainObjectName="VideoClipItems">&ndash;&gt;-->
+    <!--    		&lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		</table>&ndash;&gt;-->
+
+    <!--    		&lt;!&ndash;		<table tableName="t_video_favorite" domainObjectName="VideoFavorite">&ndash;&gt;-->
+    <!--    		&lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		</table>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		<table tableName="t_video_template" domainObjectName="VideoTemplate">&ndash;&gt;-->
+    <!--    		&lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		</table>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		<table tableName="t_video_template_favorite" domainObjectName="VTemplateFavorite">&ndash;&gt;-->
+    <!--    		&lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		</table>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		<table tableName="t_video_source" domainObjectName="VideoSource">&ndash;&gt;-->
+    <!--    		&lt;!&ndash;			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--    		&lt;!&ndash;		</table>&ndash;&gt;-->
+
+
+    <!--&lt;!&ndash;    		<table tableName="tiktok_account" domainObjectName="TiktokAccount"&ndash;&gt;-->
+    <!--&lt;!&ndash;				   enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"&ndash;&gt;-->
+    <!--&lt;!&ndash;				   enableSelectByExample="false" selectByExampleQueryId="false">&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;				<property name="useActualColumnNames" value="true"/>&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;    			<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;    		</table>&ndash;&gt;-->
+    <!--			<table tableName="auro_pay" domainObjectName="AuroPay"-->
+    <!--				   enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
+    <!--				   enableSelectByExample="false" selectByExampleQueryId="false">-->
+    <!--				<generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+    <!--			</table>-->
+    <!--    	</context>-->
+    <context id="DB2Tables2" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <!-- 是否去掉注释 -->
+            <property name="suppressDate" value="false"/>
+            <property name="suppressAllComments" value="false"/>
+        </commentGenerator>
+
+        <!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+        <!--                        connectionURL="jdbc:mysql://280d5aab.nat123.fun:31186/data_schedule?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"-->        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.3.40:3306/data_schedule?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+                        userId="root" password="slzh@mysql2020"/>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 实体定义地址 -->
+        <javaModelGenerator targetPackage="com.slzh.model.datasource"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- sql的配置文件定义 -->
+        <sqlMapGenerator targetPackage="com.slzh.dao.sqlmapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- mapper接口生成的位置. DAO定义 XMLMAPPER是xml的配置方式，还有ANNOTabelMapper的是注解方式 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.slzh.dao.datasource" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+<!--        <table tableName="t_config_data_source" domainObjectName="DataSourceConfig"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="t_config_data_table" domainObjectName="DataTableConfig"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+<!--        </table>-->
+
+
+<!--        <table tableName="t_config_data_set" domainObjectName="DataSetConfig"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+<!--        </table>-->
+
+
+<!--        <table tableName="t_config_data_item" domainObjectName="DataItemConfig"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+<!--        </table>-->
+
+        <table tableName="t_config_data_extract_table_mapping" domainObjectName="DataTableMappingConfig"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+
+        <table tableName="t_config_data_extract_field_mapping" domainObjectName="DataFieldMappingConfig"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/>
+            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>
+        </table>
+
+<!--        <table tableName="t_config_relation_data_item_set" domainObjectName="DataItemRelation"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--            <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true"/>-->
+<!--        </table>-->
+
+    </context>
+
+</generatorConfiguration>

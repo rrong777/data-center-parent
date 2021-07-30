@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.slzh.dao.SysOrganizationMapper">
+    <resultMap id="baseRs" type="com.slzh.model.SysOrganization">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="label" property="label"></result>
+        <result column="parent_id" property="parentId"></result>
+        <result column="created_time" property="createdTime"></result>
+        <collection property="childrenPersons" ofType="com.slzh.model.SysUser">
+            <id column="userId" property="id"></id>
+            <id column="username" property="username"></id>
+            <id column="nickname" property="nickname"></id>
+        </collection>
+    </resultMap>
+    <update id="clearUserOrganizationId">
+        update sys_user set organization_id = null where organization_id = #{organizationId}
+    </update>
+<!--        select id,`name`, `name` as label, parent_id, created_time from sys_organization_structure-->
+    <select id="get" resultMap="baseRs">
+        select os.id,os.`name`, os.`name` as label, os.parent_id, os.created_time,
+               u.id userId, u.username , u.nickname
+        from sys_organization_structure os left join sys_user u on u.organization_id = os.id
+    </select>
+
+    <insert id="insertOne">
+        insert into sys_organization_structure(`name`, parent_id, created_time)
+        value(#{name},#{parentId},now())
+    </insert>
+
+    <delete id="delete">
+        delete from sys_organization_structure where id = #{organizationId}
+    </delete>
+
+    <select id="getSubOrganizationId" resultType="java.lang.Integer">
+        select id from sys_organization_structure where parent_id =#{organizationId}
+    </select>
+
+    <select id="getOrganizationPeople" resultType="com.slzh.model.SysUser">
+        select id, nickname from sys_user where organization_id = #{organizationId}
+    </select>
+    <update id="update">
+        update sys_organization_structure
+        <set>
+            <if test="name!=null and name!=''">
+                `name`=#{name},
+            </if>
+            <if test="parentId!=null and parentId!=''">
+                parent_id=#{parentId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.slzh.dao.DesktopMapper">
+    <resultMap id="Base_DesktopInfo" type="com.slzh.model.desktop.DesktopInfo">
+        <id column="desktopId" property="desktopId"></id>
+        <result column="desktopName" property="desktopName"></result>
+        <result column="userId" property="userId"></result>
+        <collection property="folderInfoList" ofType="com.slzh.model.desktop.FolderInfo">
+            <id column="folderId" property="folderId"></id>
+            <result column="folderId" property="id"></result>
+            <result column="desktopId" property="desktopId"></result>
+            <result column="name" property="name"></result>
+            <result column="icon" property="icon"></result>
+            <result column="width" property="width"></result>
+            <result column="height" property="height"></result>
+            <result column="open" property="open"></result>
+            <result column="expand" property="expand"></result>
+            <result column="sequence" property="sequence"></result>
+            <result column="type" property="type"></result>
+            <collection property="appInfoList2" ofType="com.slzh.model.desktop.AppInfo">
+                <id column="appId" property="appId"></id>
+                <result column="appId" property="id"></result>
+                <result column="app_folderId" property="folderId"></result>
+                <result column="app_desktopId" property="desktopId"></result>
+                <result column="application_name" property="name"></result>
+                <result column="app_icon" property="icon"></result>
+                <result column="app_sequence" property="sequence"></result>
+                <result column="folderSequence" property="folderSequence"></result>
+                <result column="app_type" property="type"></result>
+                <result column="access_address" property="link"></result>
+                <result column="loginLink" property="loginLink"></result>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="getDesktopInfo" resultMap="Base_DesktopInfo">
+        select d.*, f.*,
+        a.appId, a.folderId as app_folderId, a.desktopId as app_desktopId, r.application_name,
+        r.icon as app_icon, a.sequence as app_sequence, a.folderSequence, a.type as app_type, r.access_address,
+        r.loginLink
+        from portal_desktop d
+        left join portal_folder f on f.desktopId = d.desktopId
+        left join portal_app a on a.folderId = f.folderId
+        left join portal_app_center r on a.appId = r.register_info_id
+        where d.desktopId in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getAppInfoByFavoritesId" resultType="java.util.Map">
+        select a.*, a.appId as id, r.application_name as name, r.icon, r.access_address as link, r.loginLink from
+        portal_favorites_app a
+        left join portal_app_center r on a.appId = r.register_info_id
+        where favoritesId = #{favoritesId}
+        <if test="appIds!=null and appIds.size()>0">
+            and r.register_info_id in
+            <foreach collection="appIds" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        order by sequence
+    </select>
+
+    <select id="getAppInfoByToolId" resultType="java.util.Map">
+        select a.*, a.appId as id, r.application_name as name, r.icon, r.access_address as link, r.loginLink from
+        portal_tool_app a
+        left join portal_app_center r on a.appId = r.register_info_id
+        where toolId = #{toolId}
+        <if test="appIds!=null and appIds.size()>0">
+            and r.register_info_id in
+            <foreach collection="appIds" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        order by count desc
+    </select>
+
+    <select id="getAppInfoByToolIdAndAppId" resultType="java.util.Map">
+        select * from portal_tool_app where toolId = #{toolId} and appId = #{appId}
+    </select>
+
+    <select id="getCountOfAppInfoByToolId" resultType="java.lang.Integer">
+        select count(appId) from portal_tool_app where toolId = #{toolId}
+    </select>
+
+    <select id="getAppInfoByDesktopId" resultType="com.slzh.model.desktop.AppInfo">
+        select a.*, a.appId as id, r.application_name as name, r.icon, r.access_address as link, r.loginLink from
+        portal_desktop d
+        left join portal_app a on a.desktopId = d.desktopId
+        left join portal_app_center r on a.appId = r.register_info_id
+        where d.desktopId in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        <if test="appIds!=null and appIds.size()>0">
+            and r.register_info_id in
+            <foreach collection="appIds" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        and a.folderId is null
+        and a.desktopId is not null
+    </select>
+
+    <select id="getDesktopIdByUserId" resultType="java.lang.String">
+      select distinct desktopId from portal_desktop where userId =  #{userId}
+    </select>
+
+    <select id="getFavoritesIdByUserId" resultType="java.lang.String">
+      select distinct favoritesId from portal_favorites where userId = #{userId} limit 1
+    </select>
+
+    <select id="getToolIdByUserId" resultType="java.lang.String">
+      select distinct toolId from portal_tool where userId = #{userId}
+    </select>
+
+    <select id="getFolderSequenceByDesktopId" resultType="java.lang.Integer">
+      select distinct sequence from portal_folder where desktopId = #{desktopId}
+      order by sequence
+    </select>
+
+    <select id="getAppSequenceByDesktopId" resultType="java.lang.Integer">
+      select distinct sequence from portal_app where desktopId = #{desktopId}
+      and folderId is null and sequence is not null
+      order by sequence
+    </select>
+
+    <select id="getFavoritesAppSequenceByFavoritesId" resultType="java.lang.Integer">
+      select distinct sequence from portal_favorites_app where favoritesId = #{favoritesId}
+      order by sequence
+    </select>
+
+    <select id="getAppInfoByAppId" resultType="java.util.Map">
+      select * from portal_app where appId = #{appId}
+    </select>
+
+    <select id="getNeedUpdateFolderSequenceAppInfo" resultType="java.util.Map">
+      select * from portal_app where desktopId = #{desktopId} and folderId = #{folderId} and folderSequence > #{folderSequence}
+    </select>
+
+    <select id="getNeedUpdateSequenceAppInfo" resultType="java.util.Map">
+      select * from portal_app where desktopId = #{desktopId} and `sequence` > #{sequence}
+    </select>
+
+    <select id="getFavoritesAppInfoByAppId" resultType="java.lang.Integer">
+      select * from portal_favorites_app where appId = #{appId}
+    </select>
+
+    <select id="getNeedUpdateSequenceFavoritesAppInfo" resultType="java.util.Map">
+      select * from portal_favorites_app where favoritesId = #{favoritesId} and `sequence` > #{sequence}
+    </select>
+
+    <delete id="deleteFolderInfoByDesktopId">
+        delete from portal_folder where desktopId = #{desktopId}
+    </delete>
+
+    <delete id="deleteAppInfoByDesktopId">
+        delete from portal_app where desktopId = #{desktopId}
+    </delete>
+
+    <delete id="deleteAppInfoByFavoritesId">
+        delete from portal_favorites_app where favoritesId = #{favoritesId}
+    </delete>
+
+    <delete id="deleteAppInfoByToolId">
+        delete from portal_tool_app where toolId = #{toolId}
+    </delete>
+
+    <delete id="deleteAppInfoByAppIdForTool">
+        delete from portal_tool_app where appId = #{appId}
+    </delete>
+
+    <delete id="deleteAppInfoByAppIdForDesktop">
+        delete from portal_app where appId = #{appId}
+    </delete>
+
+    <delete id="deleteAppInfoByAppIdForFavorites">
+        delete from portal_favorites_app where appId = #{appId}
+    </delete>
+
+    <delete id="deletePortalDesktop">
+        delete from portal_desktop where desktopId = #{desktopId} and userId = #{userId}
+    </delete>
+
+    <insert id="insertPortalDesktop">
+        insert into portal_desktop (`desktopId`, `userId`, `desktopName`)
+        values (#{desktopId}, #{userId}, #{desktopName})
+    </insert>
+
+    <insert id="insertPortalFavorites">
+        insert into portal_favorites (`favoritesId`, `userId`)
+        values (#{favoritesId}, #{userId})
+    </insert>
+
+    <insert id="insertPortalTool">
+        insert into portal_tool (`toolId`, `userId`)
+        values (#{toolId}, #{userId})
+    </insert>
+
+    <insert id="insertPortalFolder">
+        insert into portal_folder (`folderId`, `desktopId`, `name`, `icon`, `width`, `height`, `open`, `expand`,
+        `sequence`, `type`)
+        values
+        <foreach collection="list" item="ext" separator=",">
+            (#{ext.folderId,jdbcType=VARCHAR}, #{ext.desktopId,jdbcType=VARCHAR}, #{ext.name,jdbcType=VARCHAR},
+            #{ext.icon,jdbcType=VARCHAR},
+            #{ext.width,jdbcType=DOUBLE}, #{ext.height,jdbcType=DOUBLE},#{ext.open,jdbcType=INTEGER},
+            #{ext.expand,jdbcType=INTEGER},
+            #{ext.sequence,jdbcType=INTEGER}, #{ext.type,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <insert id="insertPortalApp">
+        insert into portal_app (`appId`, `folderId`, `desktopId`, `sequence`, `folderSequence`, `type`)
+        values
+        <foreach collection="list" item="ext" separator=",">
+            (#{ext.appId,jdbcType=VARCHAR}, #{ext.folderId,jdbcType=VARCHAR}, #{ext.desktopId,jdbcType=VARCHAR},
+            #{ext.sequence,jdbcType=INTEGER}, #{ext.folderSequence,jdbcType=INTEGER}, #{ext.type,jdbcType=VARCHAR})
+        </foreach>
+        on duplicate key update
+        sequence = VALUES(sequence),
+        folderSequence = VALUES(folderSequence),
+        type = VALUES(type)
+    </insert>
+
+    <insert id="insertPortalFavoritesApp">
+        insert into portal_favorites_app (`appId`, `favoritesId`, `sequence`, `type`)
+        values
+        <foreach collection="list" item="ext" separator=",">
+            (#{ext.appId,jdbcType=VARCHAR}, #{ext.favoritesId,jdbcType=VARCHAR},
+            #{ext.sequence,jdbcType=INTEGER}, #{ext.type,jdbcType=VARCHAR})
+        </foreach>
+        on duplicate key update
+        sequence = VALUES(sequence),
+        type = VALUES(type)
+    </insert>
+
+    <insert id="insertPortalToolApp">
+        insert into portal_tool_app
+        <foreach collection="params.keys" item="key" open="(" close=")"
+                 separator=",">
+            ${key}
+        </foreach>
+        values
+        <foreach collection="params.values" item="value" open="("
+                 close=")" separator=",">
+            #{value}
+        </foreach>
+        on duplicate key update
+        count = VALUES(count) + 1
+    </insert>
+
+
+    <update id="updateFolderInfoByDesktopId" parameterType="java.util.Map">
+        UPDATE `portal_folder`
+        <set>
+            <if test="name != null and name != ' '">
+                `name`=#{name},
+            </if>
+            <if test="icon != null and icon != ' '">
+                `icon`=#{icon},
+            </if>
+            <if test="width != null">
+                `width`=#{width},
+            </if>
+            <if test="height != null">
+                `height`=#{height},
+            </if>
+            <if test="open != null">
+                `open`=#{open},
+            </if>
+            <if test="expand != null">
+                `expand`=#{expand},
+            </if>
+            sys_time=NOW()
+        </set>
+        WHERE `folderId`=#{folderId} and `desktopId`=#{desktopId}
+    </update>
+
+    <update id="updateAppInfoByDesktopId" parameterType="java.util.Map">
+        UPDATE `portal_app`
+        <set>
+            <if test="name != null and name != ' '">
+                `name`=#{name},
+            </if>
+            <if test="icon != null and icon != ' '">
+                `icon`=#{icon},
+            </if>
+            sys_time=NOW()
+        </set>
+        WHERE `appId`=#{appId} and `desktopId`=#{desktopId}
+    </update>
+
+    <update id="updateDesktopNameByDesktopId">
+        UPDATE `portal_desktop`
+        <set>
+            <if test="desktopName != null and desktopName != ''">
+                desktopName = #{desktopName}
+            </if>
+        </set>
+        WHERE desktopId = #{desktopId}
+    </update>
+</mapper>
