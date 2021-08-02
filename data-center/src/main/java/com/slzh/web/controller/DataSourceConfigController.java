@@ -3,6 +3,7 @@ package com.slzh.web.controller;
 import com.slzh.model.config.datasource.base.AbstractDataSourceConfig;
 import com.slzh.model.config.datasource.rdbms.mysql.MySQLDataSourceConfig;
 import com.slzh.model.datasource.DataSourceConfig;
+import com.slzh.model.http.HttpRequest;
 import com.slzh.model.http.HttpResult;
 import com.slzh.model.page.PageRequest;
 import com.slzh.model.sso.AppCenter;
@@ -37,6 +38,16 @@ public class DataSourceConfigController {
             return HttpResult.error(e.getMessage());
         }
         return connectionDetails;
+    }
+
+    @PostMapping("/interfaceCall")
+    public HttpResult interfaceCall(@RequestBody HttpRequest request) {
+        try {
+            return dataSourceService.interfaceCall(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return HttpResult.error("请求异常！请稍后重试！");
+        }
     }
     /**
      * 分页查询应用中心

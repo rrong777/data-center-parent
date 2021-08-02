@@ -332,6 +332,18 @@
             <if test="updateTime != null">
                 updateTime,
             </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="databaseName != null">
+                databaseName,
+            </if>
+            <if test="filePath != null">
+                filePath,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="dataSourceName != null">
@@ -406,6 +418,19 @@
             <if test="updateTime != null">
                 #{updateTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="ip != null">
+                #{ip},
+            </if>
+            <if test="port != null">
+                #{port},
+            </if>
+            <if test="databaseName != null">
+                #{databaseName},
+            </if>
+            <if test="filePath != null">
+                #{filePath},
+            </if>
+
         </trim>
         on duplicate key upate
         createTime=now()

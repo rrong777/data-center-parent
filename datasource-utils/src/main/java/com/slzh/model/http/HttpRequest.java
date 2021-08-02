@@ -9,6 +9,7 @@ public class HttpRequest {
     private Map<String, String> headers;
     private Map<String, String> params;
     private ContentType contentType;
+    private String method;
     public Map<String, String> getParams() {
         return params;
     }
@@ -17,6 +18,13 @@ public class HttpRequest {
         this.params = params;
     }
 
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
 
     public HttpRequest() {
     }
